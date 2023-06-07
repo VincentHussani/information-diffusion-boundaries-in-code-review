@@ -1,5 +1,6 @@
 # Upper Bound of Information Diffusion in Code Review: Replication package
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/52ccd35c0135466c842b6e43780b436a)](https://app.codacy.com/gh/VincentHussani/information-diffusion-boundaries-in-code-review?utm_source=github.com&utm_medium=referral&utm_content=VincentHussani/information-diffusion-boundaries-in-code-review&utm_campaign=Badge_Grade)
 [![GitHub](https://img.shields.io/github/license/michaeldorner/information-diffusion-boundaries-in-code-review)](./LICENSE)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ef43d5d9b7c74ec0b211c03d91c448d8)](https://app.codacy.com/gh/vincenthussani/information-diffusion-boundaries-in-code-review/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://img.shields.io/codacy/coverage/ef43d5d9b7c74ec0b211c03d91c448d8)](https://app.codacy.com/gh/vincenthussani/information-diffusion-boundaries-in-code-review/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
