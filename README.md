@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/michaeldorner/information-diffusion-boundaries-in-code-review)](./LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7898863.svg)](https://doi.org/10.5281/zenodo.7898863)
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6c4c0956c0324e1ab08202d823681716)](https://app.codacy.com/gh/VincentHussani/information-diffusion-boundaries-in-code-review/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Simulation code for the study "Upper Bound of Information Diffusion in Code Review"
 
