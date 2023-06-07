@@ -21,5 +21,9 @@ jobs:
         coverage run -m unittest discover
         coverage xml
         
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV}} 
+        file: ./coverage.xml 
+        fail_ci_if_error: true 
