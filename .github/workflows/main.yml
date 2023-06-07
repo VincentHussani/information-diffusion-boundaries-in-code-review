@@ -27,4 +27,6 @@ jobs:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
       run: |
         bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage.xml
-         ls -l
+    - name: Check if coverage.xml is generated
+      run: |
+        ls -l
