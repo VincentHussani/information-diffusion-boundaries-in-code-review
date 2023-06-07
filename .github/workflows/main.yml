@@ -1,29 +1,18 @@
-name: CI
-on: [push, pull_request]
-jobs:
-  run:
-    runs-on: ubuntu-latest
-    env:
-      OS: ubuntu-latest
-      PYTHON: '3.11'
     steps:
-    - name: Setup Python
-      uses: actions/setup-python@master
-      with:
-        python-version: '3.11'
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Install Dependencies
-      run: |
-        python -m pip install -U pip
-        pip install -r requirements.txt
-        pip install coverage
-    - name: Run Tests and Generate Coverage Report
-      run: |
-        coverage run -m unittest discover
-        coverage xml
-    - name: Upload coverage to Codacy
-      env:
-        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-      run: |
-        bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage.xml
+      - uses: actions/checkout@master
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run unit tests
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+          python3 -m unittest discover
+          pip install coverage
+          coverage -m unittest discover
+          coverage xml
+      - name: Report coverage
+        run: |
+          bash <(curl -Ls https://coverage.codacy.com/get.sh)
