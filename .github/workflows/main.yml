@@ -22,5 +22,5 @@ jobs:
         coverage run -m unittest discover
         coverage xml
     - name: Upload coverage to Codacy
-        env:
-          CODACY_PROJECT_TOKEN
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
