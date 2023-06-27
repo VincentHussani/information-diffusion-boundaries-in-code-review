@@ -22,11 +22,8 @@ jobs:
           pip install pytest pytest-cov nbconvert pyyaml
       - name: Run Tests and Generate Coverage Report
         run: |
-          python get_tests.py > tests_to_run.txt
-          while IFS= read -r test
-          do
-            pytest --cov=. --cov-report xml:coverage.xml $test
-          done < tests_to_run.txt
+          tests_to_run=$(python get_tests.py)
+          pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
       - name: Cleanup converted notebooks
         run: |
           find ./notebooks/ -name "*.py" -type f -delete
