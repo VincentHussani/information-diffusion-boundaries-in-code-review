@@ -11,7 +11,7 @@ def convert_notebook(notebook: str):
 
 def get_changed_files():  # Uses githubs inbuilt functions to get changed files
     changed_files_json = subprocess.run(
-        ["git", "diff", "--name-only"], stdout=subprocess.PIPE, check=True
+        ["git", "diff", "--name-only","HEAD^"], stdout=subprocess.PIPE, check=True
     )
     return changed_files_json.stdout.decode("utf-8").split("\n")
 
