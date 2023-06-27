@@ -44,5 +44,5 @@ if __name__ == "__main__":
     tests_to_run = get_required_tests(changed_files, dependencies)
 
     tests_to_run = get_required_tests(changed_files, dependencies)
-    all_tests = " ".join(f"test/test_{test_file}.py" for test_file in tests_to_run)
+    all_tests = " ".join(f"test/test_{test_file}" for test_file in tests_to_run)
     print(all_tests)
