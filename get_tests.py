@@ -14,7 +14,6 @@ def get_changed_files():  # Uses githubs inbuilt functions to get changed files
         ["git", "diff", "--name-only","HEAD^"], stdout=subprocess.PIPE, check=True
     )
     changed_files = changed_files_json.stdout.decode("utf-8").split("\n")
-    print(f"Changed files: {changed_files}")  # Debug print
     return changed_files
 
 
@@ -35,7 +34,6 @@ def get_required_tests(
                     tests_to_run.append(i["name"])
             if file.endswith(".ipynb"):
                 convert_notebook(file)
-    print(f"Tests to run: {tests_to_run}")  # Debug print
     return set(tests_to_run)
 
 
