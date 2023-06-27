@@ -3,7 +3,7 @@ import subprocess
 import os
 import yaml
 
-
+#>:)
 def convert_notebook(notebook: str):
     new_path = notebook.replace(".ipynb", ".py")
     subprocess.run(["jupyter", "nbconvert", "--to", "script", notebook], check=True)
