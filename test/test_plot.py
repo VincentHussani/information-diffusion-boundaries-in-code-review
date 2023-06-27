@@ -2,7 +2,7 @@ import unittest
 
 from simulation.model import CommunicationNetwork
 
-#:SD
+#:S
 class ModelTest(unittest.TestCase):
 
     cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
