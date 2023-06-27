@@ -26,6 +26,7 @@ jobs:
             pytest --cov=. --cov-report xml:coverage.xml $test
           done < tests_to_run.txt
       - name: Cleanup converted notebooks
+        run: |
           find ./notebooks/ -name "*.py" -type f -delete
       - name: Upload coverage to Codacy
         env:
