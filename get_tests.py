@@ -28,7 +28,7 @@ def get_required_tests(
         if file.startswith("test/test_") :
             test_name = os.path.basename(file).replace("test_", "")
             test_name = test_name.replace(".py","")
-            tests_to_run.append(test_name)
+            tests_to_run.append(test_name+".py")
             # If the test file is for a notebook, convert the notebook to Python
             corresponding_notebook = next((dep for dep in dependencies if dep["name"] == test_name and dep["extension"] == ".ipynb"), None)
             if corresponding_notebook:
