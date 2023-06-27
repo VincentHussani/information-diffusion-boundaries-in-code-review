@@ -11,10 +11,13 @@ def convert_notebook(notebook: str):
 
 
 def get_changed_files():  # Uses githubs inbuilt functions to get changed files
-    changed_files_json = subprocess.run(
-        ["git", "diff", "--name-only", "HEAD^"], stdout=subprocess.PIPE, check=True
-    )
-    return changed_files_json.stdout.decode("utf-8").split("\n")
+    try:
+        commit_range = subprocess.check_output(['git', 'rev-list', '--max-parents=0', 'HEAD^..HEAD'], encoding='utf-8').strip()
+        changed_files_json = subprocess.run(["git", "diff", "--name-only", commit_range], stdout=subprocess.PIPE, check=True)
+        return changed_files_json.stdout.decode('utf-8').split('\n')
+    except subprocess.CalledProcessError:
+        # Handle the case where the commit range is invalid or there is no commit history
+        return []
 
 
 def get_required_tests(
