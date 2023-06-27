@@ -29,9 +29,6 @@ jobs:
           fi
       - name: Print Debug Information
         run: cat get_tests.log
-      - name: Cleanup converted notebooks
-        run: |
-          find ./notebooks/ -name "*.py" -type f -delete
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
