@@ -24,7 +24,9 @@ jobs:
         run: |
           tests_to_run=$(python get_tests.py)
           echo "Tests to run: $tests_to_run"
-          pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
+          if [[ -n "$tests_to_run" ]]; then
+            pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
+          fi
       - name: Print Debug Information
         run: cat get_tests.log
       - name: Cleanup converted notebooks
