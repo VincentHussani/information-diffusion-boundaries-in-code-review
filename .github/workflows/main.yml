@@ -23,6 +23,7 @@ jobs:
       - name: Run Tests and Generate Coverage Report
         run: |
           tests_to_run=$(python get_tests.py)
+          echo "Tests to run: $tests_to_run"
           pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
       - name: Print Debug Information
         run: cat get_tests.log
