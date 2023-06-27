@@ -43,9 +43,6 @@ if __name__ == "__main__":
     changed_files = get_changed_files()
     tests_to_run = get_required_tests(changed_files, dependencies)
 
-    for (
-        test_file
-    ) in (
-        tests_to_run
-    ):  # this is used to print out the names of the tests to be conducted in a file to be later read by the CI :)
-        print(f"test/{test_file}_test.py")
+    tests_to_run = get_required_tests(changed_files, dependencies)
+    all_tests = " ".join(f"test/{test_file}_test.py" for test_file in tests_to_run)
+    print(all_tests)
