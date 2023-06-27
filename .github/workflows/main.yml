@@ -29,6 +29,9 @@ jobs:
           fi
       - name: Print Debug Information
         run: cat get_tests.log
+      - name: Verify Python Files in Notebooks Folder
+        run: |
+          python -c "import os; print(os.listdir('notebooks'))"
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
