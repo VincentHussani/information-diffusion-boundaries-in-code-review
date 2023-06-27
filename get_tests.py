@@ -31,6 +31,7 @@ def get_required_tests(
             # If the test file is for a notebook, convert the notebook to Python
             corresponding_notebook = next((dep for dep in dependencies if dep["name"] == test_name and dep["extension"] == ".ipynb"), None)
             if corresponding_notebook:
+                logging.debug("We in :)")  # Debug log
                 convert_notebook(corresponding_notebook["path"] + corresponding_notebook["name"] + corresponding_notebook["extension"])
         else:
             for i in dependencies:
