@@ -3,7 +3,7 @@ import subprocess
 import os
 import yaml
 
-#>:)
+logging.basicConfig(filename='get_tests.log', level=logging.DEBUG)
 def convert_notebook(notebook: str):
     new_path = notebook.replace(".ipynb", ".py")
     subprocess.run(["jupyter", "nbconvert", "--to", "script", notebook], check=True)
@@ -14,6 +14,7 @@ def get_changed_files():  # Uses githubs inbuilt functions to get changed files
         ["git", "diff", "--name-only","HEAD^"], stdout=subprocess.PIPE, check=True
     )
     changed_files = changed_files_json.stdout.decode("utf-8").split("\n")
+    logging.debug(f"Changed files: {changed_files}")  # Debug log
     return changed_files
 
 
@@ -34,6 +35,7 @@ def get_required_tests(
                     tests_to_run.append(i["name"])
             if file.endswith(".ipynb"):
                 convert_notebook(file)
+    logging.debug(f"Tests to run: {tests_to_run}")  # Debug log
     return set(tests_to_run)
 
 
