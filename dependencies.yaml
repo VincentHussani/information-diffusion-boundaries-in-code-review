@@ -16,4 +16,5 @@
   dependencies: [model]
 - name: plot
   extension: .ipynb
+  path: notebooks/
   dependencies: []
