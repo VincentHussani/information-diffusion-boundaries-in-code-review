@@ -22,8 +22,8 @@ def get_required_tests(
 ):  # compares the files to the ones in the dependencies yaml file to see which needs to be tested
     tests_to_run = []
     for file in changed_files:
-        if file.startswith("test/") and file.endswith("_test.py"):
-            tests_to_run.append(os.path.basename(file).replace("_test.py", ""))
+        if file.startswith("test/test_") :
+            tests_to_run.append(os.path.basename(file).replace("test_", ""))
         else:
             for i in dependencies:
                 full_path = i["path"] + i["name"] + i["extension"]
@@ -44,5 +44,5 @@ if __name__ == "__main__":
     tests_to_run = get_required_tests(changed_files, dependencies)
 
     tests_to_run = get_required_tests(changed_files, dependencies)
-    all_tests = " ".join(f"test/{test_file}_test.py" for test_file in tests_to_run)
+    all_tests = " ".join(f"test/test_{test_file}.py" for test_file in tests_to_run)
     print(all_tests)
