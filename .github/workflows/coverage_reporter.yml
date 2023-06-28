@@ -21,7 +21,7 @@ jobs:
         id: check
         run: |
           commit_date=$(git log -1 --since='1 day ago' --format="%cd")
-          echo "{commit_date}={$commit_date}" >> $GITHUB_OUTPUT
+          echo "commit_date=$commit_date" >> $GITHUB_OUTPUT
           if [ -n "$commit_date" ]; then
             echo "Commit is found. Running tests and generating coverage report :)"
           else
