@@ -2,7 +2,7 @@ name: Coverage Reporter
 on:
   schedule:
     - cron: "0 0 * * *"
-  workflow_dispatch:    # add this line to enable manual trigger
+  workflow_dispatch:
 jobs:
   run:
     runs-on: ubuntu-latest
