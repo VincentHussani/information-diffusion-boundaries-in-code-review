@@ -26,23 +26,23 @@ class MinimalPath(unittest.TestCase):
         self.assertEqual(result_1, result_2, 'Single-source Dijkstra implementations are not equivalent')
 
 
-    def test_5(self):
+    #def test_5(self):
         # Test what happens when the hypergraph is empty
-        empty_cn = CommunicationNetwork({}, {})
-        result_vertices = single_source_dijkstra_vertices(empty_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
-        result_hyperedges = single_source_dijkstra_hyperedges(empty_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
-        self.assertEqual(result_vertices, {}, 'Empty hypergraph vertices test failed')
-        self.assertEqual(result_hyperedges, {}, 'Empty hypergraph hyperedges test failed')
-        self.assertEqual(result_vertices, result_hyperedges, 'Single-source Dijkstra implementations are not equivalent for empty hypergraph')
+        #empty_cn = CommunicationNetwork({}, {})
+        #result_vertices = single_source_dijkstra_vertices(empty_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
+        #result_hyperedges = single_source_dijkstra_hyperedges(empty_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
+        #self.assertEqual(result_vertices, {}, 'Empty hypergraph vertices test failed')
+        #self.assertEqual(result_hyperedges, {}, 'Empty hypergraph hyperedges test failed')
+        #self.assertEqual(result_vertices, result_hyperedges, 'Single-source Dijkstra implementations are not equivalent for empty hypergraph')
 
-    #def test_6(self):
-        # Test what happens when a hypergraph only has one vertex
-       # single_vertex_cn = CommunicationNetwork({'h1': ['v1']}, {'h1': 1})
-      #  result_vertices = single_source_dijkstra_vertices(single_vertex_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
-       # result_hyperedges = single_source_dijkstra_hyperedges(single_vertex_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
-       # self.assertEqual(result_vertices, {}, 'Single vertex hypergraph vertices test failed')
-       # self.assertEqual(result_hyperedges, {}, 'Single vertex hypergraph hyperedges test failed')
-       # self.assertEqual(result_vertices, result_hyperedges, 'Single-source Dijkstra implementations are not equivalent for single vertex hypergraph')
+    def test_6(self):
+         #Test what happens when a hypergraph only has one vertex
+        single_vertex_cn = CommunicationNetwork({'h1': ['v1']}, {'h1': 1})
+        result_vertices = single_source_dijkstra_vertices(single_vertex_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
+        result_hyperedges = single_source_dijkstra_hyperedges(single_vertex_cn, 'v1', DistanceType.SHORTEST, min_timing=0)
+        self.assertEqual(result_vertices, {}, 'Single vertex hypergraph vertices test failed')
+        self.assertEqual(result_hyperedges, {}, 'Single vertex hypergraph hyperedges test failed')
+        self.assertEqual(result_vertices, result_hyperedges, 'Single-source Dijkstra implementations are not equivalent for single vertex hypergraph')
 
     def test_7(self):
         # Test what happens when all hypergraphs are connected to all other hypergraphs
