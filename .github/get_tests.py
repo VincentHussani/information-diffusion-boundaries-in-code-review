@@ -24,13 +24,16 @@ def get_required_tests(changed_files, dependencies): # compares the files to the
             #     if corresponding_notebook:
             #         has_notebooks = True
             #         subprocess.run(["pip", "install", "nbclient", "nbformat"], check=True)
-        
-        for i in dependencies:
-            full_path = i["path"] + i["name"] + i["extension"]
-            if full_path == file:
-                tests_to_run.append(i["name"])
-            elif set(i["dependencies"]).intersection(set(tests_to_run)):
-                tests_to_run.append(i["name"])
+            for i in dependencies:
+                if set(i["dependencies"]).intersection(set(tests_to_run)):
+                    tests_to_run.append(i["name"])
+        else :
+            for i in dependencies:
+                full_path = i["path"] + i["name"] + i["extension"]
+                if full_path == file:
+                    tests_to_run.append(i["name"])
+                elif set(i["dependencies"]).intersection(set(tests_to_run)):
+                    tests_to_run.append(i["name"])
             # if not has_notebooks and file.endswith(".ipynb"):
             #     has_notebooks = True
             #     subprocess.run(["pip", "install", "nbclient", "nbformat"], check=True)
