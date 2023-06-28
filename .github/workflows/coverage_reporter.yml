@@ -1,0 +1,48 @@
+name: Coverage Reporter
+on:
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      OS: ubuntu-latest
+      PYTHON: "3.11"
+    steps:
+      - name: Setup Python
+        uses: actions/set-python@master
+        with:
+          python-version: "3.11"
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Check for commits in past 24 hours
+        id: check
+        run: |
+          commit_date=$(git log --since='1 day ago')
+          echo "::set-output name=commit_date::$commit_date"
+      - name: Exit if no commits are found
+        run: |
+          if [ -z "${{ steps.check.outputs.last_commit_date }}" ]; then
+              echo "No commit was made within last 24 hours, exiting"
+              exit 0
+          fi
+      - name: Install Dependencies
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov nbconvert pyyaml
+      - name: Run Tests and Generate Coverage Report
+        run: |
+          for nb in $(find ./notebooks -name "*.ipynb"); do jupyter nbconvert --to script $nb; done
+          tests_to_run=$(python .github/get_tests.py)
+          echo "Tests to run: $tests_to_run"
+          pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
+      - name: Upload coverage to Codacy
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        run: |
+          if [ -f coverage.xml ]; then
+            bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage.xml
+          fi
