@@ -10,7 +10,7 @@ jobs:
       PYTHON: "3.11"
     steps:
       - name: Setup Python
-        uses: actions/set-python@master
+        uses: actions/setup-python@master
         with:
           python-version: "3.11"
       - name: Checkout
@@ -20,26 +20,28 @@ jobs:
       - name: Check for commits in past 24 hours
         id: check
         run: |
-          commit_date=$(git log --since='1 day ago')
+          commit_date=$(git log -1 --since='1 day ago' --format="%cd")
           echo "::set-output name=commit_date::$commit_date"
-      - name: Exit if no commits are found
-        run: |
-          if [ -z "${{ steps.check.outputs.last_commit_date }}" ]; then
-              echo "No commit was made within last 24 hours, exiting"
-              exit 0
+          if [ -n "$commit_date" ]; then
+            echo "Commit is found. Running tests and generating coverage report :)..."
+          else
+            echo "No commits made in the last 24 hours, exiting :("
           fi
       - name: Install Dependencies
+        if: steps.check.outputs.commit_date != ''
         run: |
           python -m pip install -U pip
           pip install -r requirements.txt
           pip install pytest pytest-cov nbconvert pyyaml
       - name: Run Tests and Generate Coverage Report
+        if: steps.check.outputs.commit_date != ''
         run: |
           for nb in $(find ./notebooks -name "*.ipynb"); do jupyter nbconvert --to script $nb; done
           tests_to_run=$(python .github/get_tests.py)
           echo "Tests to run: $tests_to_run"
           pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
       - name: Upload coverage to Codacy
+        if: steps.check.outputs.commit_date != ''
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
