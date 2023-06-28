@@ -40,9 +40,6 @@ jobs:
         if: steps.check.outputs.tests_to_run != ''
         run: |
           pytest ${{ steps.check.outputs.tests_to_run }}
-      - name: Print Debug Information
-        if: steps.check.outputs.tests_to_run != ''
-        run: cat get_tests.log
       - name: Verify Python Files in Notebooks Folder
         if: steps.check.outputs.tests_to_run != ''
         run: |
