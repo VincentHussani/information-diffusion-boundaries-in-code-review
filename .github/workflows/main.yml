@@ -23,7 +23,7 @@ jobs:
         id: check
         run: |
           tests_to_run=$(python .github/get_tests.py)
-          echo "::set-output name=tests_to_run::$tests_to_run"
+          echo "{tests_to_run}={$tests_to_run}" >> $GITHUB_OUTPUT
           if [ -n "$tests_to_run" ]; then
             echo "Tests found. Running tests..."
           else
