@@ -1,13 +1,11 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  setup:
+  run:
     runs-on: ubuntu-latest
     env:
       OS: ubuntu-latest
       PYTHON: "3.11"
-    outputs:
-      tests_to_run: ${{ steps.check.outputs.tests_to_run }}
     steps:
       - name: Setup Python
         uses: actions/setup-python@master
@@ -26,30 +24,19 @@ jobs:
         run: |
           tests_to_run=$(python .github/get_tests.py)
           echo "::set-output name=tests_to_run::$tests_to_run"
-  test:
-    needs: setup
-    if: needs.setup.outputs.tests_to_run != ''
-    runs-on: ubuntu-latest
-    env:
-      OS: ubuntu-latest
-      PYTHON: "3.11"
-    steps:
-      - name: Setup Python
-        uses: actions/setup-python@master
-        with:
-          python-version: "3.11"
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-      - name: Install minimal dependencies
-        run: |
-          python -m pip install -U pip
-          pip install pyyaml nbconvert
       - name: Install other Dependencies
+        if: steps.check.outputs.tests_to_run != ''
         run: |
           pip install -r requirements.txt
           pip install pytest
-      - name: Run Tests and Generate Coverage Report
+      - name: Run Tests
+        if: steps.check.outputs.tests_to_run != ''
         run: |
-          pytest --cov=. --cov-report xml:coverage.xml ${{ needs.setup.outputs.tests_to_run }}
+          pytest ${{ steps.check.outputs.tests_to_run }}
+      - name: Print Debug Information
+        if: steps.check.outputs.tests_to_run != ''
+        run: cat get_tests.log
+      - name: Verify Python Files in Notebooks Folder
+        if: steps.check.outputs.tests_to_run != ''
+        run: |
+          python -c "import os; print(os.listdir('notebooks'))"
