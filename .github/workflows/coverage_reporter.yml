@@ -5,9 +5,11 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    strategy:
+        matrix: 
+          PYTHON: ["3.10", "3.11"]
     env:
       OS: ubuntu-latest
-      PYTHON: "3.11"
     steps:
       - name: Setup Python
         uses: actions/setup-python@master
