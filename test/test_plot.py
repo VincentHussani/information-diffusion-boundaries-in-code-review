@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 from notebooks.plot import compute
-
+#testing functionality
 class TestCompute(unittest.TestCase):
     def setUp(self) -> None:
         self.test_df =  pd.read_pickle('../data/minimal_paths/spotify.pickle.bz2')
