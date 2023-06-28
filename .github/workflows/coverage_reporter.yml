@@ -23,7 +23,7 @@ jobs:
           commit_date=$(git log -1 --since='1 day ago' --format="%cd")
           echo "::set-output name=commit_date::$commit_date"
           if [ -n "$commit_date" ]; then
-            echo "Commit is found. Running tests and generating coverage report :)..."
+            echo "Commit is found. Running tests and generating coverage report :)"
           else
             echo "No commits made in the last 24 hours, exiting :("
           fi
