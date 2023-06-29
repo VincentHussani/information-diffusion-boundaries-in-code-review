@@ -11,34 +11,24 @@ def get_changed_files():  # Uses githubs inbuilt functions to get changed files
 
 
 def get_required_tests(changed_files, dependencies): # compares the files to the ones in the dependencies yaml file to see which needs to be tested
-    has_notebooks =False
     tests_to_run = []
-    for file in changed_files:
-        if file.startswith("test/test_") :
-            test_name = os.path.basename(file).replace("test_", "")
-            test_name = test_name.replace(".py","")
-            tests_to_run.append(test_name)
-            # If the test file is for a notebook, convert the notebook to Python
-            # if not has_notebooks:
-            #     corresponding_notebook = next((dep for dep in dependencies if dep["name"] == test_name and dep["extension"] == ".ipynb"), None)
-            #     if corresponding_notebook:
-            #         has_notebooks = True
-            #         subprocess.run(["pip", "install", "nbclient", "nbformat"], check=True)
-            for i in dependencies:
-                if test_name == i["name"]:
-                    for j in i["dependencies"]:
-                        tests_to_run.apppend(j)
-        else :
-            for i in dependencies:
-                full_path = i["path"] + i["name"] + i["extension"]
-                if full_path == file:
-                    tests_to_run.append(i["name"])
-                    for j in i["dependencies"]:
-                        tests_to_run.apppend(j)
 
-            # if not has_notebooks and file.endswith(".ipynb"):
-            #     has_notebooks = True
-            #     subprocess.run(["pip", "install", "nbclient", "nbformat"], check=True)
+    for file in changed_files:
+        base_name = os.path.basename(file)
+        base_name = os.path.splitext(base_name)[0]
+
+        if file.startswith("test/test_"):
+            base_name.replace("test_","")
+
+        for i in dependencies:
+            if i["name"] == base_name:
+                tests_to_run.append(i["name"]) #Found a file which is supposed to be tested
+                if i["extension"] == ".ipynb":
+                    pass
+            elif set(i["dependencies"]).intersection(tests_to_run) or base_name in i[dependencies]:
+                tests_to_run.append(i["name"]) #Found a file which depends on a tested file
+                if i["extension"] == ".ipynb":
+                    pass
     return set(tests_to_run)
 
 
