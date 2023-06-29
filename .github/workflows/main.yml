@@ -1,5 +1,15 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'test/**'
+      - 'notebooks/**'
+      - 'simulation/**'
+  pull_request:
+    paths:
+      - 'test/**'
+      - 'notebooks/**'
+      - 'simulation/**'
 jobs:
   run:
     runs-on: ubuntu-latest
