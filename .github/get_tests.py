@@ -17,7 +17,7 @@ def get_required_tests(changed_files, dependencies): # compares the files to the
         if file.startswith("test/test_") :
             test_name = os.path.basename(file).replace("test_", "")
             test_name = test_name.replace(".py","")
-            tests_to_run.append(test_name+".py")
+            tests_to_run.append(test_name)
             # If the test file is for a notebook, convert the notebook to Python
             # if not has_notebooks:
             #     corresponding_notebook = next((dep for dep in dependencies if dep["name"] == test_name and dep["extension"] == ".ipynb"), None)
@@ -48,5 +48,5 @@ if __name__ == "__main__":
     tests_to_run = get_required_tests(changed_files, dependencies)
 
     tests_to_run = get_required_tests(changed_files, dependencies)
-    all_tests = " ".join(f"test/test_{test_file}" for test_file in tests_to_run)
+    all_tests = " ".join(f"test/test_{test_file}.py" for test_file in tests_to_run)
     print(all_tests)
