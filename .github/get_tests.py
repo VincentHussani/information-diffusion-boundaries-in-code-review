@@ -25,7 +25,7 @@ def get_required_tests(changed_files, dependencies): # compares the files to the
                 tests_to_run.append(i["name"]) #Found a file which is supposed to be tested
                 if i["extension"] == ".ipynb":
                     pass
-            elif set(i["dependencies"]).intersection(tests_to_run) or base_name in i[dependencies]:
+            elif set(i["dependencies"]).intersection(tests_to_run) or base_name in i["dependencies"]:
                 tests_to_run.append(i["name"]) #Found a file which depends on a tested file
                 if i["extension"] == ".ipynb":
                     pass
