@@ -10,7 +10,7 @@ def get_changed_files():  # Uses githubs inbuilt functions to get changed files
     return changed_files
 
 
-def get_required_tests(changed_files, dependencies): # compares the files to the ones in the dependencies yaml file to see which needs to be tested
+def get_required_tests(changed_files, testable_file): # compares the files to the ones in the dependencies yaml file to see which needs to be tested
     tests_to_run = []
 
     for file in changed_files:
@@ -18,9 +18,9 @@ def get_required_tests(changed_files, dependencies): # compares the files to the
         base_name = os.path.splitext(base_name)[0]
 
         if file.startswith("test/test_"):
-            base_name.replace("test_","")
+            base_name = base_name.replace("test_","")
 
-        for i in dependencies:
+        for i in testable_file:
             if i["name"] == base_name:
                 tests_to_run.append(i["name"]) #Found a file which is supposed to be tested
                 if i["extension"] == ".ipynb":
@@ -33,12 +33,12 @@ def get_required_tests(changed_files, dependencies): # compares the files to the
 
 
 if __name__ == "__main__":
-    dependencies = []
+    testable_files = []
     with open("dependencies.yaml", encoding="utf-8") as file:
-        dependencies = yaml.safe_load(file)
+        testable_files = yaml.safe_load(file)
     changed_files = get_changed_files()
-    tests_to_run = get_required_tests(changed_files, dependencies)
+    tests_to_run = get_required_tests(changed_files, testable_files)
 
-    tests_to_run = get_required_tests(changed_files, dependencies)
+    tests_to_run = get_required_tests(changed_files, testable_files)
     all_tests = " ".join(f"test/test_{test_file}.py" for test_file in tests_to_run)
     print(all_tests)
