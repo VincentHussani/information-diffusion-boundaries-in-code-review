@@ -26,14 +26,14 @@ def get_required_tests(changed_files, testable_file): # compares the files to th
                 tests_to_run.append(i["name"]) #Found a file which is supposed to be tested
 
                 if has_notebook is False and i["extension"] == ".ipynb":
-                    subprocess.run(["pip","install","nbformat","matplotlib","numpy"],check=True)
+                    subprocess.run(["pip","install","nbformat","matplotlib","numpy"],stdout=subprocess.PIPE,check=True)
                     has_notebook = True
 
             elif set(i["dependencies"]).intersection(tests_to_run) or base_name in i["dependencies"]:
                 tests_to_run.append(i["name"]) #Found a file which depends on a tested file
 
                 if has_notebook is False and i["extension"] == ".ipynb":
-                    subprocess.run(["pip","install","nbformat","matplotlib","numpy"],check=True)
+                    subprocess.run(["pip","install","nbformat","matplotlib","numpy"],stdout=subprocess.PIPE,check=True)
                     has_notebook = True
 
     return set(tests_to_run)
