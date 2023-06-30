@@ -38,7 +38,12 @@ if __name__ == "__main__":
         testable_files = yaml.safe_load(file)
     changed_files = get_changed_files()
     tests_to_run = get_required_tests(changed_files, testable_files)
-
     tests_to_run = get_required_tests(changed_files, testable_files)
-    all_tests = " ".join(f"test/test_{test_file}.py" for test_file in tests_to_run)
+
+    existing_tests = []
+    for test_file in tests_to_run:
+        test_path = f"test/test_{test_file}.py"
+        if os.path.exists(test_path):
+            existing_tests.append(test_path)
+    all_tests = " ".join(existing_tests)
     print(all_tests)
