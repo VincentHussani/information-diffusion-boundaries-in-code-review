@@ -12,7 +12,7 @@ def get_changed_files():  # Uses githubs inbuilt functions to get changed files
 
 def get_required_tests(changed_files, testable_file): # compares the files to the ones in the dependencies yaml file to see which needs to be tested
     tests_to_run = []
-
+    has_notebook = False
     for file in changed_files:
         base_name = os.path.basename(file)
         base_name = os.path.splitext(base_name)[0]
@@ -21,14 +21,19 @@ def get_required_tests(changed_files, testable_file): # compares the files to th
             base_name = base_name.replace("test_","")
 
         for i in testable_file:
+
             if i["name"] == base_name:
                 tests_to_run.append(i["name"]) #Found a file which is supposed to be tested
-                if i["extension"] == ".ipynb":
-                    pass
+
+                if has_notebook is False and i["extension"] == ".ipynb":
+                    subprocess.run(["pip","install","nbformat","matplotlib","numpy"],check=True)
+
             elif set(i["dependencies"]).intersection(tests_to_run) or base_name in i["dependencies"]:
                 tests_to_run.append(i["name"]) #Found a file which depends on a tested file
-                if i["extension"] == ".ipynb":
-                    pass
+
+                if has_notebook is False and i["extension"] == ".ipynb":
+                    subprocess.run(["pip","install","nbformat","matplotlib","numpy"],check=True)
+
     return set(tests_to_run)
 
 
@@ -45,5 +50,5 @@ if __name__ == "__main__":
         test_path = f"test/test_{test_file}.py"
         if os.path.exists(test_path):
             existing_tests.append(test_path)
-    all_tests = " ".join(existing_tests)
-    print(all_tests)
+    ALL_TEST = " ".join(existing_tests)
+    print(ALL_TEST)
