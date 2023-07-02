@@ -47,9 +47,9 @@ Please notice that depending on your hardware, the complete simulation may run s
 
 The simulation provides options
 
-- `--select <name 1> <name 2> ...` to select a subset of available code review networks
-- `--vertex_dijkstra` to use a vertex-based implementation of Dijkstra's algorithm (which tends to be slower),
-- `--num_processes` to limit the number of processes
+-   `--select <name 1> <name 2> ...` to select a subset of available code review networks
+-   `--vertex_dijkstra` to use a vertex-based implementation of Dijkstra's algorithm (which tends to be slower),
+-   `--num_processes` to limit the number of processes
 
 For an overview of all options, use `python3 -m simulation.run --help`.
 
@@ -96,7 +96,7 @@ To visualize the results and reproduce the tables and figures of the publication
 
 Thanks a lot
 
-- [Andreas Bauer](https://github.com/andreas-bauer) for your valuable feedback in countless discussion.
+-   [Andreas Bauer](https://github.com/andreas-bauer) for your valuable feedback in countless discussion.
 
 ## License
 
