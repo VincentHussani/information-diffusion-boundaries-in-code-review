@@ -39,8 +39,6 @@ jobs:
       - name: Run Tests and Generate Coverage Report
         if: steps.check.outputs.commit_date != ''
         run: |
-          for nb in $(find ./notebooks -name "*.ipynb"); do jupyter nbconvert --to script $nb; done
-          tests_to_run=$(python .github/get_tests.py)
           echo "Tests to run: $tests_to_run"
           pytest --cov=. --cov-report xml:coverage.xml $tests_to_run
       - name: Upload coverage to Codacy
