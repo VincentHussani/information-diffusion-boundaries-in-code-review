@@ -2,14 +2,14 @@ name: CI
 on:
   push:
     paths:
-      - 'test/**'
-      - 'notebooks/**'
-      - 'simulation/**'
+      - "test/**"
+      - "notebooks/**"
+      - "simulation/**"
   pull_request:
     paths:
-      - 'test/**'
-      - 'notebooks/**'
-      - 'simulation/**'
+      - "test/**"
+      - "notebooks/**"
+      - "simulation/**"
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -50,7 +50,11 @@ jobs:
         if: steps.check.outputs.tests_to_run != ''
         run: |
           pytest ${{ steps.check.outputs.tests_to_run }}
-      - name: Verify Python Files in Notebooks Folder
+      - name: Install orjson and rerun tests
         if: steps.check.outputs.tests_to_run != ''
         run: |
-          python -c "import os; print(os.listdir('notebooks'))"
+          pip install orjson
+      - name: Rerun Tests with orjson
+        if: steps.check.outputs.tests_to_run != ''
+        run: |
+          pytest ${{ steps.check.outputs.tests_to_run }}
