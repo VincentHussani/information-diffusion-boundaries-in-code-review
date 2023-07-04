@@ -13,8 +13,8 @@ class TestTimeVaryHypergraph(unittest.TestCase):
         hedges = {'hedge1': ['v1', 'v2'], 'hedge2': ['v2', 'v3']}
         timings = {'v1': [1, 2, 3], 'v2': [2, 3, 4], 'v3': [3, 4, 5]}
         cls = TimeVaryingHypergraph(hedges=hedges, timings=timings)
-        self.assertEqual(cls._hedges, hedges)
-        self.assertEqual(cls._timings, timings)
+        self.assertEqual(cls.hyperedges(), hedges)
+        self.assertEqual(cls.timings(), timings)
         self.assertIsInstance(cls, TimeVaryingHypergraph)
     def test_timings(self):
         """Test that the timings method works and returns the correct values"""

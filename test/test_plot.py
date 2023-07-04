@@ -1,6 +1,7 @@
 import unittest
 import pandas as pd
 import nbformat
+import time
 class TestCompute(unittest.TestCase):
     def setUp(self) -> None:
         self.test_df =  pd.read_pickle('data/minimal_paths/spotify.pickle.bz2')
@@ -21,7 +22,17 @@ class TestCompute(unittest.TestCase):
     def test_reproducability(self):
         result1 = self.compute(self.test_df)
         result2 = self.compute(self.test_df)
-        print(result1)
+        pd.testing.assert_frame_equal(result1, result2)
+
+    def test_reproducability_time(self):
+        t1 = time.perf_counter()
+        result1 = self.compute(self.test_df)
+        t1 = time.perf_counter() - t1
+
+        t2 = time.perf_counter()
+        result2 = self.compute(self.test_df)
+        t2 = time.perf_counter() - t2
+
         pd.testing.assert_frame_equal(result1, result2)
 
     def test_cumsum(self):
