@@ -2,20 +2,22 @@
 import subprocess
 import os
 import yaml
-found_notebook = False
 
 def get_changed_files():  # Uses githubs inbuilt functions to get changed files
     changed_files_json = subprocess.run(["git", "diff", "--name-only","HEAD^"], stdout=subprocess.PIPE, check=True)
     changed_files = changed_files_json.stdout.decode("utf-8").split("\n")
     return changed_files
 
-def notebook_checker(file):
+def notebook_checker(file,found_notebook):
     if found_notebook is False and file["extension"] == ".ipynb":
         subprocess.run(["pip","install","nbformat","matplotlib","numpy"],stdout=subprocess.PIPE,check=True)
         found_notebook = True
+    return found_notebook
 
 def get_required_tests(changed_files, testable_file): # compares the files to the ones in the dependencies yaml file to see which needs to be tested
     tests_to_run = []
+    found_notebook = False
+
     for file in changed_files:
         base_name = os.path.basename(file)
         base_name = os.path.splitext(base_name)[0]
@@ -26,10 +28,11 @@ def get_required_tests(changed_files, testable_file): # compares the files to th
         for i in testable_file:
             if i["name"] == base_name:
                 tests_to_run.append(i["name"]) #Found a file which is supposed to be tested
-                notebook_checker(i)
+                found_notebook = notebook_checker(i,found_notebook)
+
             elif set(i["dependencies"]).intersection(tests_to_run) or base_name in i["dependencies"]:
                 tests_to_run.append(i["name"]) #Found a file which depends on a tested file
-                notebook_checker(i)
+                found_notebook = notebook_checker(i,found_notebook)
     return set(tests_to_run)
 
 if __name__ == "__main__":
