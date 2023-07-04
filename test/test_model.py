@@ -5,6 +5,7 @@ import sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 from simulation.model import TimeVaryingHypergraph, CommunicationNetwork
+#:)
 class TestTimeVaryHypergraph(unittest.TestCase):
     """Tests for `model.py` module"""
     def test_class_creation(self):
@@ -12,7 +13,7 @@ class TestTimeVaryHypergraph(unittest.TestCase):
         hedges = {'hedge1': ['v1', 'v2'], 'hedge2': ['v2', 'v3']}
         timings = {'v1': [1, 2, 3], 'v2': [2, 3, 4], 'v3': [3, 4, 5]}
         cls = TimeVaryingHypergraph(hedges=hedges, timings=timings)
-        self.assertEqual(cls.hyperedges(), hedges)
+        self.assertEqual(cls._hedges, hedges)
         self.assertEqual(cls.timings(), timings)
         self.assertIsInstance(cls, TimeVaryingHypergraph)
     def test_timings(self):
