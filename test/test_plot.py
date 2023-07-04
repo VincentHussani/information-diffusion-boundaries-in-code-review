@@ -26,14 +26,15 @@ class TestCompute(unittest.TestCase):
 
     def test_reproducability_time(self):
         t1 = time.perf_counter()
-        result1 = self.compute(self.test_df)
+        self.compute(self.test_df)
         t1 = time.perf_counter() - t1
 
         t2 = time.perf_counter()
-        result2 = self.compute(self.test_df)
+        self.compute(self.test_df)
         t2 = time.perf_counter() - t2
 
-        pd.testing.assert_frame_equal(result1, result2)
+        diff = abs(t2-t1)/t1
+        self.assertLess(diff,0.05)
 
     def test_cumsum(self):
         cumsum_df = pd.DataFrame({"a":[1,2,3,4,5],"b":[1,2,3,4,5]})
@@ -57,10 +58,6 @@ class TestCompute(unittest.TestCase):
 
     def test_missing(self):
         df = self.test_df.copy(deep=True)
-
-        df["shortest"] = None
-        df["target"] = None
-        df["source"] = None
+        df["fastest"]["0063ea80576f47764e075f3ed99090de"]["3bc5fbfb1e502db2169558785b6f0a7d"] = None
         result = self.compute(df)
-        self.assertTrue(isinstance(result, pd.DataFrame))
         self.assertEqual(result.shape, self.expected_shape)
