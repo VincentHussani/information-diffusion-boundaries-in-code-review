@@ -2,6 +2,8 @@ import unittest
 from collections import defaultdict
 import os
 import sys
+import json
+
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 from simulation.model import TimeVaryingHypergraph, CommunicationNetwork
@@ -60,6 +62,45 @@ class TestCommunicationNetwork(unittest.TestCase):
     def test_class_creation(self):
         """Test that the class(CommunicationNetwork) can be instantiated"""
         pass
+
+    def test_channels(self):
+
+        com_net = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+        channels = com_net.channels()
+        self.assertSetEqual(channels, {'h1', 'h2', 'h3'})
+
+    def test_participants(self):
+
+        com_net = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+        participants = com_net.participants()
+        self.assertSetEqual(participants, {'v1', 'v2', 'v3', 'v4'})
+
+    def test_from_json(self):
+
+        data = {
+            "c1": {
+                "participants": ["p1", "p2"],
+                "end": "2022-01-01T00:00:00"
+            },
+            "c2": {
+                "participants": ["p2", "p3"],
+                "end": "2022-01-01T02:00:00"
+            },
+            "c3": {
+                "participants": ["p1", "p3"],
+                "end": "2022-01-01T04:00:00"
+            }
+        }
+
+        with open("data.json", "w") as f:
+            json.dump(data, f)
+        
+        com_net = CommunicationNetwork.from_json("data.json")
+        os.remove("data.json")
+
+        self.assertSetEqual(com_net.channels(), {"c1", "c2", "c3"})
+        self.assertSetEqual(com_net.participants(), {"p1", "p2", "p3"})
+
 
 
 
