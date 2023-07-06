@@ -6,7 +6,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/6c4c0956c0324e1ab08202d823681716)](https://app.codacy.com/gh/VincentHussani/information-diffusion-boundaries-in-code-review/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 Simulation code for the study "Upper Bound of Information Diffusion in Code Review"
- 
 ## Introduction
 
 The underlying idea of our in-silico experiment is simple: We simulate an artificial information diffusion process in empirical communication networks emerging from code review and measure the minimal paths among all participants, the upper bound of information diffusion. The cardinality of reachable participants indicates how far (RQ 1) and minimal distances between participants indicate fast (RQ 2) information can spread following the communication channels that code review provide under best-case assumptions.
