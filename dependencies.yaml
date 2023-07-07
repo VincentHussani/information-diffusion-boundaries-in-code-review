@@ -10,11 +10,14 @@
   extension: .py
   path: simulation/
   dependencies: []
+  test_with_orjson: True
 - name: minimal_paths
   extension: .py
   path: simulation/
   dependencies: [model]
+  test_with_orjson: True
 - name: plot
   extension: .ipynb
   path: notebooks/
   dependencies: []
+  test_with_orjson: False
