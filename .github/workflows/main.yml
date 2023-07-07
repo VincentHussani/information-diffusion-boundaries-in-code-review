@@ -50,11 +50,22 @@ jobs:
         if: steps.check.outputs.tests_to_run != ''
         run: |
           pytest ${{ steps.check.outputs.tests_to_run }}
-      - name: Install orjson and rerun tests
+      - name: Check for files to test with orjson
+        id: check_orjson
         if: steps.check.outputs.tests_to_run != ''
+        run: |
+          tests_to_run=$(python .github/get_orjson_tests.py)
+          echo "tests_to_run=$tests_to_run" >> $GITHUB_OUTPUT
+          if [ -n "$tests_to_run" ]; then
+            echo "Tests found. Running tests..."
+          else
+            echo "No tests found. Exiting."
+          fi
+      - name: Install orjson and rerun tests
+        if: steps.check.outputs.tests_to_run != '' && steps.check_orjson.outputs.tests_to_run != ''
         run: |
           pip install orjson
       - name: Rerun Tests with orjson
-        if: steps.check.outputs.tests_to_run != ''
+        if: steps.check.outputs.tests_to_run != '' && steps.check_orjson.outputs.tests_to_run != ''
         run: |
-          pytest ${{ steps.check.outputs.tests_to_run }}
+          pytest ${{ steps.check_orjson.outputs.tests_to_run }}
