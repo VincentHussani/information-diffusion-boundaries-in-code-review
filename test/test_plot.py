@@ -5,7 +5,7 @@ import nbformat
 
 class TestCompute(unittest.TestCase):
     def setUp(self) -> None:
-        self.test_df =  pd.read_pickle('data/minimal_paths/spotify.pickle.bz2')
+        self.test_df =  pd.read_pickle('data/minimal_paths/test_file.pickle.bz2')
         self.expected_shape = (29,1730)
         with open('notebooks/plot.ipynb',encoding="utf-8") as f:
             self.notebook = nbformat.read(f,as_version=4)
