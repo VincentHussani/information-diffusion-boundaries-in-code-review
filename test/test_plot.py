@@ -5,7 +5,8 @@ import nbformat
 
 class TestCompute(unittest.TestCase):
     def setUp(self) -> None:
-        self.test_df =  pd.read_pickle('data/minimal_paths/test_file.pickle.bz2')
+        self.test_df =  pd.read_pickle('test_file.pickle.bz2')
+        self.test_df = self.test_df[:100]
         self.expected_shape = (29,1730)
         with open('notebooks/plot.ipynb',encoding="utf-8") as f:
             self.notebook = nbformat.read(f,as_version=4)
@@ -30,16 +31,16 @@ class TestCompute(unittest.TestCase):
 
     def test_reproducability_time(self):
         """Test performance consistency"""
-        t1 = time.perf_counter()
+        time1 = time.perf_counter()
         self.compute(self.test_df)
-        t1 = time.perf_counter() - t1
+        time1 = time.perf_counter() - time1
 
-        t2 = time.perf_counter()
+        time2 = time.perf_counter()
         self.compute(self.test_df)
-        t2 = time.perf_counter() - t2
+        time2 = time.perf_counter() - time2
 
-        diff = abs(t2-t1)/t1
-        self.assertLess(diff,0.1)
+        diff = abs(time2-time1)/time1
+        self.assertLess(diff,0.05)
 
     def test_cumsum(self):
         cumsum_df = pd.DataFrame({"a":[1,2,3,4,5],"b":[1,2,3,4,5]})

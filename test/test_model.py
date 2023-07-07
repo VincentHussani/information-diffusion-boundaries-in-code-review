@@ -1,13 +1,12 @@
 import unittest
-from collections import defaultdict
 import os
 import sys
 import json
+from simulation.model import TimeVaryingHypergraph, CommunicationNetwork
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
-from simulation.model import TimeVaryingHypergraph, CommunicationNetwork
-
+#:)
 class TestTimeVaryHypergraph(unittest.TestCase):
     """Tests for `model.py` module"""
     def test_class_creation(self):
@@ -15,7 +14,7 @@ class TestTimeVaryHypergraph(unittest.TestCase):
         hedges = {'hedge1': ['v1', 'v2'], 'hedge2': ['v2', 'v3']}
         timings = {'v1': [1, 2, 3], 'v2': [2, 3, 4], 'v3': [3, 4, 5]}
         cls = TimeVaryingHypergraph(hedges=hedges, timings=timings)
-        self.assertEqual(cls._hedges, hedges)
+        self.assertEqual(cls.hyperedges(), set(hedges))
         self.assertEqual(cls.timings(), timings)
         self.assertIsInstance(cls, TimeVaryingHypergraph)
     def test_timings(self):
@@ -59,18 +58,12 @@ class TestTimeVaryHypergraph(unittest.TestCase):
 
 
 class TestCommunicationNetwork(unittest.TestCase):
-    def test_class_creation(self):
-        """Test that the class(CommunicationNetwork) can be instantiated"""
-        pass
-
     def test_channels(self):
-
         com_net = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
         channels = com_net.channels()
         self.assertSetEqual(channels, {'h1', 'h2', 'h3'})
 
     def test_participants(self):
-
         com_net = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
         participants = com_net.participants()
         self.assertSetEqual(participants, {'v1', 'v2', 'v3', 'v4'})
@@ -92,17 +85,14 @@ class TestCommunicationNetwork(unittest.TestCase):
             }
         }
 
-        with open("data.json", "w") as f:
-            json.dump(data, f)
-        
+        with open("data.json", "w",encoding="utf-8") as file:
+            json.dump(data, file)
+
         com_net = CommunicationNetwork.from_json("data.json")
         os.remove("data.json")
 
         self.assertSetEqual(com_net.channels(), {"c1", "c2", "c3"})
         self.assertSetEqual(com_net.participants(), {"p1", "p2", "p3"})
-
-
-
 
 if __name__ == '__main__':
     unittest.main()
