@@ -1,18 +1,7 @@
 # pylint: disable=redefined-outer-name
-import subprocess
 import os
 import yaml
-
-def get_changed_files():  # Uses githubs inbuilt functions to get changed files
-    changed_files_json = subprocess.run(["git", "diff", "--name-only","HEAD^"], stdout=subprocess.PIPE, check=True)
-    changed_files = changed_files_json.stdout.decode("utf-8").split("\n")
-    return changed_files
-
-def notebook_checker(file,found_notebook):
-    if found_notebook is False and file["extension"] == ".ipynb":
-        subprocess.run(["pip","install","nbformat","matplotlib","numpy"],stdout=subprocess.PIPE,check=True)
-        found_notebook = True
-    return found_notebook
+from get_tests import notebook_checker, get_changed_files
 
 def get_required_tests(changed_files, testable_file): # compares the files to the ones in the dependencies yaml file to see which needs to be tested
     tests_to_run = []
