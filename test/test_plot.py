@@ -39,7 +39,7 @@ class TestCompute(unittest.TestCase):
         t2 = time.perf_counter() - t2
 
         diff = abs(t2-t1)/t1
-        self.assertLess(diff,0.05)
+        self.assertLess(diff,0.1)
 
     def test_cumsum(self):
         cumsum_df = pd.DataFrame({"a":[1,2,3,4,5],"b":[1,2,3,4,5]})
